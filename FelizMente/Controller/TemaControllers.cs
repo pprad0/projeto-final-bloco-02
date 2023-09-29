@@ -71,7 +71,7 @@ namespace FelizMente.Controllers
             var Resposta = await _temaService.Update(tema);
 
             if (Resposta is null)
-                return NotFound("Tema e/ou Produto não encontrada!");
+                return NotFound("Tema e/ou Postagem não encontrada!");
             return Ok(Resposta);
         }
         [HttpDelete("{id}")]
