@@ -46,7 +46,7 @@ namespace FelizMente
                 var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 dbContext.Database.EnsureCreated();
             }
-
+            // Gosto de bolo 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
