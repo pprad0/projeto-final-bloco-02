@@ -1,6 +1,8 @@
 
 using FelizMente.Data;
 using FelizMente.Model;
+using FelizMente.Service.Implements;
+using FelizMente.Service;
 using FelizMente.Validator;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +24,8 @@ namespace FelizMente
                  options.UseSqlServer(connectionString));
 
             builder.Services.AddTransient<IValidator<Tema>, TemaValidator>();
+
+            builder.Services.AddScoped<ITemaService, TemaService>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -46,8 +50,7 @@ namespace FelizMente
                 var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 dbContext.Database.EnsureCreated();
             }
-            // Gosto de bolo 
-            // Configure the HTTP request pipeline.
+            // Configure the HTTP request pipeline
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();

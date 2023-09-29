@@ -8,14 +8,14 @@ namespace FelizMente.Model
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long id { get; set; }
+        public long Id { get; set; }
 
         [Column(TypeName = "varchar")]
         [StringLength(255)]
-        public string nome { get; set; } = string.Empty;
+        public string Nome { get; set; } = string.Empty;
 
         [Column(TypeName = "varchar")]
         [StringLength(510)]
-        public string descricao { get; set; } = string.Empty;
+        public string Descricao { get; set; } = string.Empty;
     }
 }
