@@ -7,13 +7,12 @@ namespace FelizMente.Validator
     {
         public TemaValidator()
         {
-            RuleFor(t => t.nome)
+            RuleFor(t => t.Nome)
                .NotEmpty()
                .MinimumLength(5)
                .MaximumLength(255);
 
-
-            RuleFor(t => t.descricao)
+            RuleFor(t => t.Descricao)
                .NotEmpty()
                .MinimumLength(5)
                .MaximumLength(510);
