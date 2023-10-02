@@ -12,9 +12,12 @@ namespace FelizMente.Data
         {
 
             modelBuilder.Entity<Tema>().ToTable("tb_temas");
+            modelBuilder.Entity<User>().ToTable("tb_usuario");
+            
 
         }
         public DbSet<Tema> Temas { get; set; } = null!;
+        public DbSet<User> Users { get; set; } = null!;
 
     }
 }

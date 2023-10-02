@@ -16,14 +16,16 @@ namespace FelizMente.Model
         [Column(TypeName = "varchar")]
         [StringLength(255)]
         public string Usuario { get ; set; } = string.Empty;
+
         [Column(TypeName = "varchar")]
         [StringLength(510)]
         public string Foto { get ; set; } = string.Empty;
+
         [Column(TypeName = "varchar")]
         [StringLength(255)]
         public string Senha { get ; set; } = string.Empty;
-        [Column(TypeName = "bit")]
 
+        [Column(TypeName = "bit")]
         public bool Tipo { get; set; }
     }
 }
