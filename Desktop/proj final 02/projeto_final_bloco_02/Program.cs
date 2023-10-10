@@ -1,4 +1,10 @@
+using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using projeto_final_bloco_02.Data;
+using projeto_final_bloco_02.Model;
+using projeto_final_bloco_02.Service;
+using projeto_final_bloco_02.Service.Implements;
+using projeto_final_bloco_02.Validator;
 
 namespace projeto_final_bloco_02
 {
@@ -8,36 +14,34 @@ namespace projeto_final_bloco_02
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            //// Add services to the container.
-            //builder.Services.AddControllers()
-            //    .AddNewtonsoftJson(options =>
-            //    {
-            //        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-            //        options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-            //    });
+            // Add services to the container.
 
+            builder.Services.AddControllers()
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                });
 
+            // Conexão com o Banco de dados
 
+            var connectionString = builder.Configuration
+                .GetConnectionString("DefaultConnection");
 
+            builder.Services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(connectionString)
+            );
 
-            //// Registrar a Validação das Entidades
-            //builder.Services.AddTransient<IValidator<Produto>, ProdutoValidator>();
-            //builder.Services.AddTransient<IValidator<Categoria>, CategoriaValidator>();
+            // Registrar a Validação das Entidades
+            builder.Services.AddTransient<IValidator<Produto>, ProdutoValidator>();
+            //builder.Services.AddTransient<IValidator<Tema>, TemaValidator>();
 
-
-            //// Registrar as Classes de Serviço (Service)
-            //builder.Services.AddScoped<IProdutoService, ProdutoService>();
-            //builder.Services.AddScoped<ICategoriaService, CategoriaService>();
-
-
+            // Registrar as Classes de Serviço (Service)
+            builder.Services.AddScoped<IProdutoService, ProdutoService>();
+            //builder.Services.AddScoped<ITemaService, TemaService>();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-
-
-            //Adicionar o Fluent Validation no Swagger
-            builder.Services.AddFluentValidationRulesToSwagger();
-
+            builder.Services.AddSwaggerGen();
 
             // Configuração do CORS
             builder.Services.AddCors(options =>
@@ -54,22 +58,25 @@ namespace projeto_final_bloco_02
             var app = builder.Build();
 
             // Criar o Banco de dados e as Tabelas
+
             using (var scope = app.Services.CreateAsyncScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 dbContext.Database.EnsureCreated();
             }
 
+            // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
 
-            app.UseSwagger();
-
-            app.UseSwaggerUI();
-
+            // Inicializa o CORS
             app.UseCors("MyPolicy");
 
-            app.UseAuthentication();
-
             app.UseAuthorization();
+
 
             app.MapControllers();
 
