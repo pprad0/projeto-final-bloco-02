@@ -22,6 +22,9 @@ namespace projeto_final_bloco_02.Service.Implements
                 .ToListAsync();
         }
 
+
+
+
         public async Task<Produto?> GetById(long id)
         {
             try
@@ -39,6 +42,7 @@ namespace projeto_final_bloco_02.Service.Implements
             }
 
         }
+
 
         public async Task<Produto?> Create(Produto produto)
         {
@@ -91,5 +95,14 @@ namespace projeto_final_bloco_02.Service.Implements
 
         }
 
+        public async Task<IEnumerable<Produto>> GetByNome(string nome)
+        {
+            var Produto = await _context.Produtos
+                                .Include(p => p.Categoria)
+                                .Where(p => p.Nome.Contains(nome))
+                                .ToListAsync();
+
+            return Produto;
+        }
     }
 }

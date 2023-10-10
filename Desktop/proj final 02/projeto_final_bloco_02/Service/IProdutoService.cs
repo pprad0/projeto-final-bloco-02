@@ -4,10 +4,11 @@ namespace projeto_final_bloco_02.Service
 {
     public interface IProdutoService
     {
-
         Task<IEnumerable<Produto>> GetAll();
 
         Task<Produto?> GetById(long id);
+
+        Task<IEnumerable<Produto>> GetByNome(string nome);
 
         Task<Produto?> Create(Produto produto);
 

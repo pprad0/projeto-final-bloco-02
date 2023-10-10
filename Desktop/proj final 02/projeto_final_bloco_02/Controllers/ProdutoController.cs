@@ -41,6 +41,13 @@ namespace projeto_final_bloco_02.Controller
         }
 
 
+        [HttpGet("nome/{nome}")]
+        public async Task<ActionResult> GetByNome(string nome)
+        {
+            return Ok(await _produtoService.GetByNome(nome));
+        }
+
+
         [HttpPost]
         public async Task<ActionResult> Create([FromBody] Produto produto)
         {
