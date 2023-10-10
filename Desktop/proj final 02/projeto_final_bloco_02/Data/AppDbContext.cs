@@ -10,27 +10,21 @@ namespace projeto_final_bloco_02.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Produto>().ToTable("tb_produtos");
-            //modelBuilder.Entity<Categoria>().ToTable("tb_temas");
+            modelBuilder.Entity<Categoria>().ToTable("tb_categorias");
 
+            _ = modelBuilder.Entity<Produto>()
+                .HasOne(_ => _.Categoria)
+                .WithMany(t => t.Produto)
+                .HasForeignKey("CategoriaId")
+                .OnDelete(DeleteBehavior.Cascade);
 
-            //_ = modelBuilder.Entity<Produto>()
-            //    .HasOne(_ => _.Categoria)
-            //    .WithMany(t => t.Produto)
-            //    .HasForeignKey("TemaId")
-            //    .OnDelete(DeleteBehavior.Cascade);
-
-            //_ = modelBuilder.Entity<Produto>()
-            //    .HasOne(_ => _.Usuario)
-            //    .WithMany(u => u.Produto)
-            //    .HasForeignKey("UsuarioId")
-            //    .OnDelete(DeleteBehavior.Cascade);
 
         }
 
         // Registrar DbSet - Objeto responsável por manipular a Tabela
 
         public DbSet<Produto> Produtos { get; set; } = null!;
-        //public DbSet<Categoria> Temas { get; set; } = null!;
+        public DbSet<Categoria> Categorias { get; set; } = null!;
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {

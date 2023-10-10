@@ -3,26 +3,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace projeto_final_bloco_02.Model
 {
-    public class Produto : Auditable
+    public class Categoria
     {
         [Key] // Primary Key (Id)
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // IDENTITY(1,1)
         public long Id { get; set; }
 
         [Column(TypeName = "varchar")]
-        [StringLength(100)]
-        public string Nome { get; set; } = string.Empty;
-
-        [Column(TypeName = "varchar")]
-        [StringLength(1000)]
+        [StringLength(255)]
         public string Descricao { get; set; } = string.Empty;
 
-        [Column(TypeName = "decimal(8,2)")]
-        public decimal Preco { get; set; }
-
-        public virtual Categoria? Categoria { get; set; }
-
-
-
+        [InverseProperty("Categoria")]
+        public virtual ICollection<Produto>? Produto { get; set; }
     }
 }

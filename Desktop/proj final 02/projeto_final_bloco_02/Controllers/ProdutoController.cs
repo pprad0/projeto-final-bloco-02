@@ -54,8 +54,8 @@ namespace projeto_final_bloco_02.Controller
 
             var Resposta = await _produtoService.Create(produto);
 
-            //if (Resposta is null)
-            //    return BadRequest("Categoria não encontrada!");
+            if (Resposta is null)
+                return BadRequest("Categoria não encontrada!");
 
             return CreatedAtAction(nameof(GetById), new { id = produto.Id }, produto);
 

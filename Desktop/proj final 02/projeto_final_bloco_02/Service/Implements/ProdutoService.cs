@@ -17,8 +17,8 @@ namespace projeto_final_bloco_02.Service.Implements
         public async Task<IEnumerable<Produto>> GetAll()
         {
             return await _context.Produtos
-                //.AsNoTracking()
-                //.Include(p => p.Categoria)
+                .AsNoTracking()
+                .Include(p => p.Categoria)
                 .ToListAsync();
         }
 
@@ -27,7 +27,7 @@ namespace projeto_final_bloco_02.Service.Implements
             try
             {
                 var Produtos = await _context.Produtos
-                    //.Include(p => p.Categoria)
+                    .Include(p => p.Categoria)
                     .FirstAsync(i => i.Id == id);
 
                 return Produtos;
@@ -42,21 +42,16 @@ namespace projeto_final_bloco_02.Service.Implements
 
         public async Task<Produto?> Create(Produto produto)
         {
-            ////categoria
-            //if (produto.Categoria is not null)
-            //{
-            //    var BuscaCategoria = await _context.Categorias.FindAsync(produto.Categoria.Id);
+            if (produto.Categoria is not null)
+            {
+                var BuscaCategoria = await _context.Categorias.FindAsync(produto.Categoria.Id);
 
-            //    if (BuscaCategoria is null)
-            //        return null;
+                if (BuscaCategoria is null)
+                    return null;
 
-            //    produto.Categoria = BuscaCategoria;
+                produto.Categoria = BuscaCategoria;
 
-            //}
-
-            //produto.Usuario = produto.Usuario is not null ?
-            //    await _context.Users.FirstOrDefaultAsync(u => u.Id == produto.Usuario.Id)
-            //    : null;
+            }
 
             await _context.Produtos.AddAsync(produto);
             await _context.SaveChangesAsync();
@@ -66,27 +61,22 @@ namespace projeto_final_bloco_02.Service.Implements
 
         public async Task<Produto?> Update(Produto produto)
         {
-            ////categoria
-            //var CategoriaUpdate = await _context.Produtos.FindAsync(produto.Id);
+            var CategoriaUpdate = await _context.Produtos.FindAsync(produto.Id);
 
-            //if (CategoriaUpdate is null)
-            //    return null;
+            if (CategoriaUpdate is null)
+                return null;
 
-            //if (produto.Categoria is not null)
-            //{
-            //    var BuscaCategoria = await _context.Categorias.FindAsync(produto.Categoria.Id);
+            if (produto.Categoria is not null)
+            {
+                var BuscaCategoria = await _context.Categorias.FindAsync(produto.Categoria.Id);
 
-            //    if (BuscaCategoria is null)
-            //        return null;
+                if (BuscaCategoria is null)
+                    return null;
 
-            //    produto.Categoria = BuscaCategoria;
-            //}
+                produto.Categoria = BuscaCategoria;
+            }
 
-            //produto.Usuario = produto.Usuario is not null ?
-            //    await _context.Users.FirstOrDefaultAsync(u => u.Id == produto.Usuario.Id)
-            //    : null;
-
-            //_context.Entry(CategoriaUpdate).State = EntityState.Detached;
+            _context.Entry(CategoriaUpdate).State = EntityState.Detached;
             _context.Entry(produto).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 

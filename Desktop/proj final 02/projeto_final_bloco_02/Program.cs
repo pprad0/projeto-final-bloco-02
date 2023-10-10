@@ -33,11 +33,11 @@ namespace projeto_final_bloco_02
 
             // Registrar a Validação das Entidades
             builder.Services.AddTransient<IValidator<Produto>, ProdutoValidator>();
-            //builder.Services.AddTransient<IValidator<Tema>, TemaValidator>();
+            builder.Services.AddTransient<IValidator<Categoria>, CategoriaValidator>();
 
             // Registrar as Classes de Serviço (Service)
             builder.Services.AddScoped<IProdutoService, ProdutoService>();
-            //builder.Services.AddScoped<ITemaService, TemaService>();
+            builder.Services.AddScoped<ICategoriaService, CategoriaService>();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
